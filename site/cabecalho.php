@@ -34,10 +34,10 @@
     <script type="text/javascript" src="js/moment.js"></script>
     <script type="text/javascript" src="fullcalendar/fullcalendar.min.js"></script>
     <script type="text/javascript" src="fullcalendar/pt.js"></script>
-    <script type="text/javascript" src="../plugins/pace/pace.js"></script>
-    <link rel="stylesheet" href="../plugins/pace/pace.css">
+    <script type="text/javascript" src="../site/pace/pace.js"></script>
+    <link rel="stylesheet" href="../site/pace/pace.css">
 
-    <link rel="stylesheet" href="../dist/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="../site/css/AdminLTE.min.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
 
