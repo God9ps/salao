@@ -133,7 +133,7 @@ include_once "menu.php";
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" id="fechar">Fechar</button>
-                <button type="button" class="btn btn-primary">Confirmar marcação</button>
+                <button type="button" class="btn btn-primary" id="marcar">Confirmar marcação</button>
             </div>
         </div>
     </div>
@@ -148,7 +148,7 @@ include_once "menu.php";
             .css('z-index','1000')
             .css('width','100%');
 
-        var extra = 1;
+        extra = 1;
 
         $("#addExtra").click(function () {
             $.ajax({
@@ -159,7 +159,7 @@ include_once "menu.php";
                 async: false,
                 success: function(result){
                     $("#f_registo").append('<label class="hidden-sm hidden-xs" for="extra'+extra+'">Serviço adicional</label>'+result);
-                    $("#f_registo select:last").attr('name','extra'+extra);
+                    $("#f_registo select:last").attr('id','extra'+extra);
                     if (extra == 3){
                         $("#addExtra").hide();
                     }
@@ -263,9 +263,10 @@ include_once "menu.php";
                 $("#myModalLabel").append("<strong> "+title+"</strong> para dia <b style='color: red;'>"+data+"</b> pelas <b style='color: red;'>" +starttime);
                 $("#Registo").modal({backdrop: 'static', keyboard: false});
 //                console.log("Serviço : " +id_servico+ " - " +title+ "\n Inicio : " +start+ " Fim : " +end);
+
                 /*$.ajax({
-                    url: 'process.php',
-                    data: 'accao=new&title='+title+'&startdate='+start+'&zone='+zone,
+                    url: 'trata.php',
+                    data: {}
                     type: 'POST',
                     dataType: 'json',
                     success: function(response){
@@ -275,9 +276,33 @@ include_once "menu.php";
                     error: function(e){
                         console.log(e.responseText);
                     }
+                });*/
+
+                $("#marcar").click(function () {
+                    for (i=0;i<extra;i++){
+                        if ($("#extra"+i+" option:selected").attr('duracao') === 'undefined'){
+
+                        }else{
+                            console.log("extra : " + i + " = " +$("#extra"+i+" option:selected").attr('duracao'));
+                        }
+
+                    }
+                    /*var extra1 = $("#extra1").val();
+                    var duracao1 = $("#extra1 option:selected").attr('duracao');
+                    var extra2 = $("#extra2").val();
+                    var duracao2 = $("#extra2 option:selected").attr('duracao');
+                    var extra3 = $("#extra3").val();
+                    var duracao3 = $("#extra3 option:selected").attr('duracao');
+
+                    var dados = $("#f_registo").serialize() +
+                        "&extra1="+extra1+ "&duracao1="+duracao1+
+                        "&extra2="+extra2+ "&duracao2="+duracao2+
+                        "&extra3="+extra3+ "&duracao3="+duracao3;
+                    console.log(dados);*/
                 });
+
                 $('#calendar').fullCalendar('updateEvent',event);
-                console.log(event);*/
+                console.log(event);
             },
             eventDrop: function(event, delta, revertFunc) {
                 var title = event.title;

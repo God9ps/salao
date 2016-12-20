@@ -50,7 +50,7 @@ switch ($_POST['accao']){
         echo "<select class='form-control'>";
         echo "<option value=''>Seleccione serviço</option>";
         foreach ($arrayServico as $value){
-            echo "<option value='{$value['id']}'>{$value['servico']}</option>";
+            echo "<option value='{$value['id']}' duracao='{$value['duracao']}'>{$value['servico']}</option>";
         }
         echo "</select>";
     break;

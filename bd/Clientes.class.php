@@ -1,11 +1,11 @@
 <?php
 require 'config.inc.php';
 
-class Alunos extends BDMySQL
+class Clientes extends BDMySQL
 {
     var $bd;
 
-    function Alunos()
+    function Clientes()
     {
         global $NOME_BD, $USER_BD, $PASS_BD, $SERVER_NAME;
         $this->bd = new BDMySQL ();

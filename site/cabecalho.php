@@ -32,6 +32,7 @@
     <script type="text/javascript" src="js/classie.js"></script>
     <script type="text/javascript" src="js/scripts.js"></script>
     <script type="text/javascript" src="js/moment.js"></script>
+    <script type="text/javascript" src="js/notify.js"></script>
     <script type="text/javascript" src="fullcalendar/fullcalendar.min.js"></script>
     <script type="text/javascript" src="fullcalendar/pt.js"></script>
     <script type="text/javascript" src="../site/pace/pace.js"></script>

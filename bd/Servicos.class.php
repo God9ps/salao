@@ -17,7 +17,6 @@ class Servico extends BDMySQL
     {
         $sql = "SELECT * FROM servicos";
         $resultado = $this->bd->executarSQL($sql);
-
         return $resultado;
     }
 
