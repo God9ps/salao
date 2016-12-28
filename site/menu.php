@@ -7,10 +7,10 @@
             <li class="small-logo"><a href="#header"><img src="img/logo1.png" alt="" width="120"></a></li>
 
             <li><a href="#Portfolio">Portfolio</a></li>
-            <li><a href="#team">Equipa</a></li>
+            <li><a href="#prices">Preços</a></li>
             <li><a href="#contact">Contacto</a></li>
         </ul>
         <a class="res-nav_click" href="#"><i class="fa fa-bars"></i></a>
-        <div class="btnMarcacao"><a class="link animated fadeInUp" href="#"><span class="fa fa-calendar" aria-hidden="true"></span> Marcações</a></div>
+        <div class="btnMarcacao"><a class="link1 animated fadeInUp" href="marcacoes.php"><span class="fa fa-calendar" aria-hidden="true"></span> Marcações</a></div>
     </div>
 </nav><!--main-nav-end-->

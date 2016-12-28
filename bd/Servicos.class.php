@@ -20,6 +20,13 @@ class Servico extends BDMySQL
         return $resultado;
     }
 
+    function listarServicosPrecos()
+    {
+        $sql = "SELECT * FROM servicos ORDER BY preco LIMIT 4";
+        $resultado = $this->bd->executarSQL($sql);
+        return $resultado;
+    }
+
     function atualizarProdutoAtivo($activo,$id)
     {
         $sql = "update produto set activo=$activo where id='$id'";

@@ -1,3 +1,10 @@
+<?php
+include_once '../bd/BdMySQL.class.php';
+include_once '../bd/Servicos.class.php';
+
+$servico = new Servico();
+?>
+
 <section class="main-section" id="service"><!--main-section-start-->
     <div class="container">
         <h2>Quem somos</h2>
@@ -256,61 +263,53 @@
         </ul>
     </div>
 </div>
-<section class="main-section team" id="team">
+-->
+
+<section class="main-section team" id="prices">
     <div class="container">
-        <h2>team</h2>
-        <h6>Take a closer look into our amazing team. We won’t bite.</h6>
-        <div class="team-leader-block clearfix">
-            <div class="team-leader-box">
-                <div class="team-leader wow fadeInDown delay-03s">
-                    <div class="team-leader-shadow"><a href="#"></a></div>
-                    <img src="img/team-leader-pic1.jpg" alt="">
-                    <ul>
-                        <li><a href="#" class="fa-twitter"></a></li>
-                        <li><a href="#" class="fa-facebook"></a></li>
-                        <li><a href="#" class="fa-pinterest"></a></li>
-                        <li><a href="#" class="fa-google-plus"></a></li>
-                    </ul>
-                </div>
-                <h3 class="wow fadeInDown delay-03s">Walter White</h3>
-                <span class="wow fadeInDown delay-03s">Chief Executive Officer</span>
-                <p class="wow fadeInDown delay-03s">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin consequat sollicitudin cursus. Dolor sit amet, consectetur adipiscing elit proin consequat.</p>
-            </div>
-            <div class="team-leader-box">
-                <div class="team-leader  wow fadeInDown delay-06s">
-                    <div class="team-leader-shadow"><a href="#"></a></div>
-                    <img src="img/team-leader-pic2.jpg" alt="">
-                    <ul>
-                        <li><a href="#" class="fa-twitter"></a></li>
-                        <li><a href="#" class="fa-facebook"></a></li>
-                        <li><a href="#" class="fa-pinterest"></a></li>
-                        <li><a href="#" class="fa-google-plus"></a></li>
-                    </ul>
-                </div>
-                <h3 class="wow fadeInDown delay-06s">Jesse Pinkman</h3>
-                <span class="wow fadeInDown delay-06s">Product Manager</span>
-                <p class="wow fadeInDown delay-06s">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin consequat sollicitudin cursus. Dolor sit amet, consectetur adipiscing elit proin consequat.</p>
-            </div>
-            <div class="team-leader-box">
-                <div class="team-leader wow fadeInDown delay-09s">
-                    <div class="team-leader-shadow"><a href="#"></a></div>
-                    <img src="img/team-leader-pic3.jpg" alt="">
-                    <ul>
-                        <li><a href="#" class="fa-twitter"></a></li>
-                        <li><a href="#" class="fa-facebook"></a></li>
-                        <li><a href="#" class="fa-pinterest"></a></li>
-                        <li><a href="#" class="fa-google-plus"></a></li>
-                    </ul>
-                </div>
-                <h3 class="wow fadeInDown delay-09s">Skyler white</h3>
-                <span class="wow fadeInDown delay-09s">Accountant</span>
-                <p class="wow fadeInDown delay-09s">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin consequat sollicitudin cursus. Dolor sit amet, consectetur adipiscing elit proin consequat.</p>
-            </div>
+        <h2>Preços</h2>
+        <h6>Consulte os nossos preços</h6>
+        <div class="row">
+        <?php
+
+            $array = $servico->listarServicosPrecos();
+
+            while ($row = $array->fetch(PDO::FETCH_ASSOC)) {
+
+                ?>
+                    <div class="col-md-3">
+                        <div class="panel panel-danger">
+                            <div class="panel-heading text-center">
+                                <?php echo $row['servico']; ?>
+                                <!--										<p class="text-center">MAX TEAM SIZE 25</p>-->
+                            </div>
+                            <div class="panel-body text-center">
+                                <p class="lead" style="font-size:50px"><strong><?php echo $row['preco'] ." €"; ?></strong></p>
+                            </div>
+                            <ul class="list-group list-group-flush text-center">
+
+                                <li class="list-group-item">
+                                    <a class="btn btn-xs btn-block btn-info" id="<?php echo $row['id']; ?>"><span class="fa fa-envelope"></span> Pedir informações</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <a class="btn btn-xs btn-block btn-warning" galeria-id="<?php echo $row['id']; ?>"><span class="fa fa-image"></span> Ver fotos</a>
+                                </li>
+                            </ul>
+                            <div class="panel-footer"><a class="btn btn-md btn-block btn-primary" href="marcacoes.php">QUERO MARCAR</a>
+                            </div>
+                        </div>
+                    </div>
+
+
+                <?php
+            }
+        ?>
         </div>
-    </div>
+</div>
+
 </section>
 
--->
+
 
 
 <!--<section class="business-talking">
@@ -321,7 +320,8 @@
 
 <div class="container">
     <section class="main-section contact" id="contact">
-
+        <h2>CONTACTOS</h2>
+        <h6>Entre facilmente em contacto connosco</h6>
         <div class="row">
             <div class="col-lg-6 col-sm-7 wow fadeInLeft">
                 <div class="contact-info-box address clearfix">

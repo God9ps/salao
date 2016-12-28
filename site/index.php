@@ -20,7 +20,7 @@ if (empty ($_REQUEST ['pagina'])) {
 
 <footer class="footer">
     <div class="container">
-        <div class="footer-logo"><a href="#"><img src="img/footer-logo.png" alt=""></a></div>
+<!--        <div class="footer-logo"><a href="#"><img src="img/footer-logo.png" alt=""></a></div>-->
         <span class="copyright">&copy; Todos os direitos reservados</span>
         <div class="credits">
             Anna Style Studio - 2017 <a href="https://www.codeboys.pt">Codeboys</a>
@@ -30,6 +30,17 @@ if (empty ($_REQUEST ['pagina'])) {
 
 
 <script type="text/javascript">
+    $(document).scroll(function () {
+
+        var y = $(this).scrollTop();
+        if (y > 550) {
+            $('.btnMarcacao').show();
+        } else {
+            $('.btnMarcacao').fadeOut();
+        }
+
+    });
+
     $(document).ready(function(e) {
         $('#test').scrollToFixed();
         $('.res-nav_click').click(function(){

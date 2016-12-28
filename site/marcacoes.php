@@ -8,7 +8,7 @@ include_once '../bd/Servicos.class.php';
 $servico = new Servico();
 
 include_once "cabecalho.php";
-include_once "menu.php";
+include_once "menu1.php";
 ?>
 <br><br><br><br><br>
 <section class="main-section" id="marcacoes">
@@ -112,11 +112,11 @@ include_once "menu.php";
                             <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
 
                                 <label class="hidden-sm hidden-xs" for="nome">Nome</label>
-                                <input class="form-control" name="nome" id="nome" type="text" placeholder="Insira o seu nome">
+                                <input class="form-control" name="nome" id="nome" type="text" placeholder="Insira o seu nome" required="required">
                                 <label class="hidden-sm hidden-xs" for="email">E-mail</label>
-                                <input class="form-control" name="email" id="email" type="email" placeholder="Insira o seu email">
+                                <input class="form-control" name="email" id="email" type="email" placeholder="Insira o seu email" required="required">
                                 <label class="hidden-sm hidden-xs" for="telemovel">Telémovel</label>
-                                <input class="form-control" name="telemovel" id="telemovel" type="text" placeholder="Insira o seu número de telémovel">
+                                <input class="form-control" name="telemovel" id="telemovel" type="text" placeholder="Insira o seu número de telémovel" required="required">
                                 <label class="hidden-sm hidden-xs" for="datanascimento">Data de Nascimento</label>
                                 <input class="form-control" name="datanascimento" id="datanascimento" type="date" placeholder="Insira a sua data de nascimento">
 
