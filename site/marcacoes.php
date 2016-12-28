@@ -148,9 +148,10 @@ include_once "menu.php";
             .css('z-index','1000')
             .css('width','100%');
 
-        extra = 1;
+        extra = 0;
 
         $("#addExtra").click(function () {
+            extra++;
             $.ajax({
                 url: 'trata.php',
                 type: 'POST', // Send post data
@@ -163,7 +164,7 @@ include_once "menu.php";
                     if (extra == 3){
                         $("#addExtra").hide();
                     }
-                    extra++;
+
                 }
             });
             return false;
@@ -214,9 +215,20 @@ include_once "menu.php";
 
             // make the event draggable using jQuery UI
             $(this).draggable({
+                opacity: 0.70,
                 zIndex: 999,
                 revert: true,      // will cause the event to go back to its
-                revertDuration: 0  //  original position after the drag
+                revertDuration: 0,
+                start: function(e, ui) {
+                    idEvento =  $(this).attr('id');
+                    width = $(ui.helper).css('width');
+                    height = $(ui.helper).css('height');
+                    console.log(idEvento);
+                    $(ui.helper).css('width', '110').css('height', '20').css('text-align','center');
+                },
+                stop: function () {
+                    $("#"+idEvento).css('width', width).css('height', height).css('text-align','left');
+                }//  original position after the drag
             });
 
         });
@@ -234,12 +246,14 @@ include_once "menu.php";
             header: {
                 left: 'prev,next today',
                 center: 'title',
-                right: 'month,agendaWeek,agendaDay'
+                right: 'agendaWeek,agendaDay'
             },
             defaultView: 'agendaWeek',
-            editable: true,
+            editable: false,
             droppable: true,
             allDaySlot: false,
+            minTime: "10:00:00",
+            maxTime: "20:00:00",
             eventReceive: function(event){
                 evento = event;
                 var title = event.title;
@@ -249,61 +263,86 @@ include_once "menu.php";
 
                 var starttime = start.substr(start.length - 8);
                 var data = start.substring(0,10);
-                var time = starttime.split(':');
-                var drc = duracao.split(':');
-                var horaEnd = parseInt(time[0]) + parseInt(drc[0]);
-                var minutoEnd = parseInt(time[1]) + parseInt(drc[1]);
-                var segundoEnd = parseInt(time[2]) + parseInt(drc[2]);
-                horaEnd = (horaEnd<10) ? "0"+horaEnd : horaEnd;
-                minutoEnd = (minutoEnd<10) ? "0"+minutoEnd : minutoEnd;
-                segundoEnd = (segundoEnd<10) ? "0"+segundoEnd : segundoEnd;
-                var TimeEnd = horaEnd+":"+minutoEnd+":"+segundoEnd;
-                var end = data +"T"+ TimeEnd;
+
 
                 $("#myModalLabel").append("<strong> "+title+"</strong> para dia <b style='color: red;'>"+data+"</b> pelas <b style='color: red;'>" +starttime);
                 $("#Registo").modal({backdrop: 'static', keyboard: false});
 //                console.log("Serviço : " +id_servico+ " - " +title+ "\n Inicio : " +start+ " Fim : " +end);
 
-                /*$.ajax({
-                    url: 'trata.php',
-                    data: {}
-                    type: 'POST',
-                    dataType: 'json',
-                    success: function(response){
-                        event.id = response.eventid;
-                        $('#calendar').fullCalendar('updateEvent',event);
-                    },
-                    error: function(e){
-                        console.log(e.responseText);
-                    }
-                });*/
+
 
                 $("#marcar").click(function () {
-                    for (i=0;i<extra;i++){
-                        if ($("#extra"+i+" option:selected").attr('duracao') === 'undefined'){
 
-                        }else{
+                    var time = starttime.split(':');
+                    var drc = duracao.split(':');
+                    var horaEnd = parseInt(time[0]) + parseInt(drc[0]);
+                    var minutoEnd = parseInt(time[1]) + parseInt(drc[1]);
+                    var segundoEnd = parseInt(time[2]) + parseInt(drc[2]);
+                    /*horaEnd = (horaEnd<10) ? "0"+horaEnd : horaEnd;
+                     minutoEnd = (minutoEnd<10) ? "0"+minutoEnd : minutoEnd;
+                     segundoEnd = (segundoEnd<10) ? "0"+segundoEnd : segundoEnd;*/
+
+                    if (extra >= 1){
+                        for (i=1;i<=extra;i++){
+                            var extraDRC = $("#extra"+i+" option:selected").attr('duracao').split(':');
+
+                            horaEnd = horaEnd + parseInt(extraDRC[0]);
+                            minutoEnd = minutoEnd + parseInt(extraDRC[1]);
+                            segundoEnd = segundoEnd + parseInt(extraDRC[2]);
+
+
+
                             console.log("extra : " + i + " = " +$("#extra"+i+" option:selected").attr('duracao'));
+
+
+                        }
+                    }
+
+                    horaEnd = (horaEnd<10) ? "0"+horaEnd : horaEnd;
+                    minutoEnd = (minutoEnd<10) ? "0"+minutoEnd : minutoEnd;
+                    segundoEnd = (segundoEnd<10) ? "0"+segundoEnd : segundoEnd;
+
+                    var TimeEnd = horaEnd+":"+minutoEnd+":"+segundoEnd;
+                    var end = data +"T"+ TimeEnd;
+
+//                    console.log("Hora final : " + TimeEnd + " / datahora final : " + end);
+
+                    var dados;
+                    var string = "&id_servico="+id_servico+"&startdate="+start+"&enddate="+end+"&title="+title;
+                    if (extra >= 1){
+
+                        for (i=1;i<=extra;i++) {
+                            var valor = $("#extra"+i).val();
+                            string += "&extra"+i+"="+valor;
+
                         }
 
                     }
-                    /*var extra1 = $("#extra1").val();
-                    var duracao1 = $("#extra1 option:selected").attr('duracao');
-                    var extra2 = $("#extra2").val();
-                    var duracao2 = $("#extra2 option:selected").attr('duracao');
-                    var extra3 = $("#extra3").val();
-                    var duracao3 = $("#extra3 option:selected").attr('duracao');
+                    dados = $("#f_registo").serialize()+string;
 
-                    var dados = $("#f_registo").serialize() +
-                        "&extra1="+extra1+ "&duracao1="+duracao1+
-                        "&extra2="+extra2+ "&duracao2="+duracao2+
-                        "&extra3="+extra3+ "&duracao3="+duracao3;
-                    console.log(dados);*/
+                    $.ajax({
+                     url: 'trata.php',
+                     data: dados + "&accao=nova",
+                     type: 'POST',
+                     dataType: 'json',
+                     success: function(response){
+//                         console.log(response);
+                         event.id = response.eventid;
+                         $('#calendar').fullCalendar('updateEvent',event);
+
+                     },
+                     error: function(e){
+                     console.log(e.responseText);
+                     }
+                     });
+
+
                 });
 
                 $('#calendar').fullCalendar('updateEvent',event);
                 console.log(event);
             },
+
             eventDrop: function(event, delta, revertFunc) {
                 var title = event.title;
                 var start = event.start.format();

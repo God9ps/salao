@@ -55,17 +55,14 @@ class Clientes extends BDMySQL
             return false;
     }
 
-    function inserirAlunos($c)
+    function registarCliente($c)
     {
 
         $campos = implode(', ', array_keys($c));
         $valores = "'".implode("', '",array_values($c))."'";
 
-
-        $sql = "INSERT INTO alunos ($campos) VALUES ($valores)";
-        $resultado = $this->bd->executarSQL($sql);
-
-        return $resultado;
+        $sql = "INSERT INTO clientes ($campos) VALUES ($valores)";
+        return $this->bd->executarSQLWithID($sql);
 
     }
 

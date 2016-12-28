@@ -7,12 +7,13 @@ include_once '../bd/Marcacoes.class.php';
 include_once '../bd/Servicos.class.php';
 
 $servico = new Servico();
-$marcacao = new Marcacao();
+$rsMarcacao = new Marcacao();
+$rsCliente = new Clientes();
 switch ($_POST['accao']){
     case 'agenda':
 
         $events = array();
-        $arrayMarcacao = $marcacao->listarMarcacoes();
+        $arrayMarcacao = $rsMarcacao->listarMarcacoes();
         /*$query = mysqli_query($con, "SELECT * FROM calendar");
         while($fetch = mysqli_fetch_array($query,MYSQLI_ASSOC))*/
         while ($fetch = $arrayMarcacao->fetch(PDO::FETCH_ASSOC))
@@ -33,7 +34,30 @@ switch ($_POST['accao']){
     break;
 
     case 'nova':
-        $con = mysqli_connect('localhost','root','','salao');
+        print_r($_POST);
+        $cliente = array();
+        $marcacao = array();
+
+        $cliente['nome'] = $_POST['nome'];
+        $cliente['email'] = $_POST['email'];
+        $cliente['telemovel'] = $_POST['telemovel'];
+        $cliente['datanascimento'] = $_POST['datanascimento'];
+
+        $marcacao['id_cliente'] = $rsCliente->registarCliente($cliente);
+        $marcacao['id_servico'] = $_POST['id_servico'];
+        $marcacao['title'] = $_POST['title'];
+        $marcacao['startdate'] = $_POST['startdate'];
+        $marcacao['enddate'] = $_POST['enddate'];
+        $marcacao['extra1'] = (isset($_POST['extra1'])) ? $_POST['extra1'] : '' ;
+        $marcacao['extra2'] = (isset($_POST['extra2'])) ? $_POST['extra2'] : '' ;
+        $marcacao['extra3'] = (isset($_POST['extra3'])) ? $_POST['extra3'] : '' ;
+
+        $result = $rsMarcacao->registarMarcacao($marcacao);
+
+
+
+
+        /*$con = mysqli_connect('localhost','root','','salao');
         $nome = $_POST['nome'];
         $email = $_POST['email'];
         $telemovel = $_POST['telemovel'];
@@ -42,7 +66,9 @@ switch ($_POST['accao']){
         
         $insert = mysqli_query($con,"INSERT INTO clientes(`nome`, `email`, `telemovel`, `datanascimento`) VALUES('$nome','$email','$telemovel','$datanascimento')");
         $lastidcliente = mysqli_insert_id($con);
-        echo json_encode(array('status'=>'success','eventid'=>$lastid));
+*/
+
+        echo json_encode(array('status'=>'success','eventid'=>$result));
     break;
 
     case 'extra':

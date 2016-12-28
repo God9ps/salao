@@ -20,10 +20,15 @@ class Marcacao extends BDMySQL
         return $resultado;
     }
 
-    function introduzirEncomenda($idUser,$preco, $tipoPagamento)
+    function registarMarcacao($c)
     {
-        $sql = "insert into encomenda (id_user, data, total, tipo_envio)values ('$idUser', CURRENT_TIMESTAMP, '$preco', $tipoPagamento)";
+
+        $campos = implode(', ', array_keys($c));
+        $valores = "'".implode("', '",array_values($c))."'";
+
+        $sql = "INSERT INTO marcacoes ($campos) VALUES ($valores)";
         return $this->bd->executarSQLWithID($sql);
+
     }
 
     function introduzirProdutoEncomenda($idEncomenda,$idProduto,$qtd)
