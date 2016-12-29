@@ -1,7 +1,9 @@
 <?php
 include_once '../bd/BdMySQL.class.php';
 include_once '../bd/Servicos.class.php';
+include_once '../bd/Imagens.class.php';
 
+$rsImagem = new Imagem();
 $servico = new Servico();
 ?>
 
@@ -69,68 +71,26 @@ $servico = new Servico();
                             </div>
                             <!--/row-->
                         </div>
-                        <!--/item-->
-                        <div class="item">
-                            <div class="row">
-                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><a href="#x"><img
-                                            src="img/carousel/img2.jpg" alt="Image" class="img-responsive"></a>
-                                </div>
 
-                            </div>
-                            <!--/row-->
-                        </div>
-                        <!--/item-->
-                        <div class="item">
-                            <div class="row">
+                        <?php
 
-                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><a href="#x"><img
-                                            src="img/carousel/img3.jpg" alt="Image" class="img-responsive"></a>
-                                </div>
+                        $arrayImagem = $rsImagem->listarImagens();
+                        while ($rowImagem = $arrayImagem->fetch(PDO::FETCH_ASSOC)) {
 
-                            </div>
-                            <!--/row-->
-                        </div>
-                        <div class="item">
-                            <div class="row">
+                            echo "<div class='item'>";
+                            echo "<div class='row'>";
+                            echo "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12'>";
+                            echo "<a href='#'><img src='../img/{$rowImagem['imagem']}' alt='{$rowImagem['titulo']}' class='img-responsive'></a>";
+                            echo "</div>";
+                            echo "</div>";
+                            echo "</div>";
 
-                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><a href="#x"><img
-                                            src="img/carousel/img4.jpg" alt="Image" class="img-responsive"></a>
-                                </div>
 
-                            </div>
-                            <!--/row-->
-                        </div>
+                        }
+                        ?>
 
-                        <div class="item">
-                            <div class="row">
 
-                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><a href="#x"><img
-                                            src="img/carousel/img6.jpg" alt="Image" class="img-responsive"></a>
-                                </div>
 
-                            </div>
-                            <!--/row-->
-                        </div>
-                        <div class="item">
-                            <div class="row">
-
-                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><a href="#x"><img
-                                            src="img/carousel/img7.jpg" alt="Image" class="img-responsive"></a>
-                                </div>
-
-                            </div>
-                            <!--/row-->
-                        </div>
-                        <div class="item">
-                            <div class="row">
-
-                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><a href="#x"><img
-                                            src="img/carousel/img8.jpg" alt="Image" class="img-responsive"></a>
-                                </div>
-
-                            </div>
-                            <!--/row-->
-                        </div>
                     </div>
                 </div>
             </div>
@@ -191,45 +151,33 @@ $servico = new Servico();
         <div class="portfolioFilter">
             <ul class="Portfolio-nav wow fadeIn delay-02s">
                 <li><a href="#" data-filter="*" class="current">Todos</a></li>
-                <li><a href="#" data-filter=".branding">Manicure</a></li>
-                <li><a href="#" data-filter=".webdesign">Pedicure</a></li>
-                <li><a href="#" data-filter=".printdesign">Unhas de Gel</a></li>
-                <li><a href="#" data-filter=".photography">Epilação à linha</a></li>
+                <?php
+                    $array = $servico->listarServicos();
+                    while ($row = $array->fetch(PDO::FETCH_ASSOC)) {
+                        echo "<li><a href='#' data-filter='.{$row['id']}'>{$row['servico']}</a> </li>";
+                    }
+                ?>
             </ul>
         </div>
-
     </div>
+
     <div class="portfolioContainer wow fadeInUp delay-04s">
-        <div class=" Portfolio-box printdesign">
-            <a href="#"><img src="img/Portfolio-pic1.jpg" alt=""></a>
-            <h3>Foto Album</h3>
-            <p>Print Design</p>
-        </div>
-        <div class="Portfolio-box webdesign">
-            <a href="#"><img src="img/Portfolio-pic2.jpg" alt=""></a>
-            <h3>Luca Theme</h3>
-            <p>Web Design</p>
-        </div>
-        <div class=" Portfolio-box branding">
-            <a href="#"><img src="img/Portfolio-pic3.jpg" alt=""></a>
-            <h3>Uni Sans</h3>
-            <p>Branding</p>
-        </div>
-        <div class=" Portfolio-box photography">
-            <a href="#"><img src="img/Portfolio-pic4.jpg" alt=""></a>
-            <h3>Vinyl Record</h3>
-            <p>Photography</p>
-        </div>
-        <div class=" Portfolio-box branding">
-            <a href="#"><img src="img/Portfolio-pic5.jpg" alt=""></a>
-            <h3>Hipster</h3>
-            <p>Branding</p>
-        </div>
-        <div class=" Portfolio-box photography">
-            <a href="#"><img src="img/Portfolio-pic6.jpg" alt=""></a>
-            <h3>Windmills</h3>
-            <p>Photography</p>
-        </div>
+        <?php
+
+        $arrayImagem = $rsImagem->listarImagens();
+        while ($rowImagem = $arrayImagem->fetch(PDO::FETCH_ASSOC)) {
+        /*$n = sizeof($rowImagem);
+        $random_keys=array_rand($rowImagem,$n);
+
+        foreach ($random_keys as $value){*/
+            echo "<div class=' Portfolio-box {$rowImagem['id_servico']}'>";
+                echo "<a href='#'><img src='../img/{$rowImagem['imagem']}' class='img-responsive' alt=''></a>";
+                echo "<h3>{$rowImagem['titulo']}</h3>";
+                echo "<p>{$rowImagem['descricao']}</p>";
+            echo "</div>";
+        }
+        ?>
+
     </div>
 </section><!--main-section-end-->
 

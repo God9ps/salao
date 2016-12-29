@@ -38,8 +38,13 @@ if (empty ($_REQUEST ['pagina'])) {
         } else {
             $('.btnMarcacao').fadeOut();
         }
+        if($(window).scrollTop() + $(window).height() == $(document).height()) {
+            $('.btnMarcacao').fadeOut();
+        }
 
     });
+
+
 
     $(document).ready(function(e) {
         $('#test').scrollToFixed();
