@@ -14,7 +14,7 @@ class Marcacao extends BDMySQL
 
     function listarMarcacoes()
     {
-        $sql = "SELECT * FROM marcacoes";
+        $sql = "SELECT * FROM marcacoes WHERE confirmada=1";
         $resultado = $this->bd->executarSQL($sql);
 
         return $resultado;

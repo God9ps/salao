@@ -1,4 +1,30 @@
 <?php
+
+function geraSenha($numeros = true)
+{
+// Caracteres de cada tipo
+
+    $num = '1234567890';
+
+// Variáveis internas
+    $retorno = '';
+    $caracteres = '';
+// Agrupamos todos os caracteres que poderão ser utilizados
+
+
+    if ($numeros) $caracteres .= $num;
+    $tamanho = 5;
+// Calculamos o total de caracteres possíveis
+    $len = strlen($caracteres);
+    for ($n = 1; $n <= $tamanho; $n++) {
+// Criamos um número aleatório de 1 até $len para pegar um dos caracteres
+        $rand = mt_rand(1, $len);
+// Concatenamos um dos caracteres na variável $retorno
+        $retorno .= $caracteres[$rand-1];
+    }
+    return $retorno;
+}
+
 include_once '../bd/BdMySQL.class.php';
 include_once '../bd/Administracao.class.php';
 include_once '../bd/Alerta.class.php';
@@ -9,6 +35,8 @@ include_once '../bd/Servicos.class.php';
 $servico = new Servico();
 $rsMarcacao = new Marcacao();
 $rsCliente = new Clientes();
+$rsAlerta = new Alerta();
+
 switch ($_POST['accao']){
     case 'agenda':
 
@@ -34,7 +62,7 @@ switch ($_POST['accao']){
     break;
 
     case 'nova':
-        print_r($_POST);
+
         $cliente = array();
         $marcacao = array();
 
@@ -51,22 +79,10 @@ switch ($_POST['accao']){
         $marcacao['extra1'] = (isset($_POST['extra1'])) ? $_POST['extra1'] : '' ;
         $marcacao['extra2'] = (isset($_POST['extra2'])) ? $_POST['extra2'] : '' ;
         $marcacao['extra3'] = (isset($_POST['extra3'])) ? $_POST['extra3'] : '' ;
-
+        $marcacao['codigo'] = geraSenha();
         $result = $rsMarcacao->registarMarcacao($marcacao);
 
-
-
-
-        /*$con = mysqli_connect('localhost','root','','salao');
-        $nome = $_POST['nome'];
-        $email = $_POST['email'];
-        $telemovel = $_POST['telemovel'];
-        $datanascimento = $_POST['datanascimento'];
-        $id_servico = $_POST['id_servico'];
-        
-        $insert = mysqli_query($con,"INSERT INTO clientes(`nome`, `email`, `telemovel`, `datanascimento`) VALUES('$nome','$email','$telemovel','$datanascimento')");
-        $lastidcliente = mysqli_insert_id($con);
-*/
+        $rsAlerta->enviarEmail("Código de confirmação","Código : " . $marcacao['codigo'], "geral@annastyle.pt" , "Anna Style Studio",$cliente['email'] , $cliente['nome'] );
 
         echo json_encode(array('status'=>'success','eventid'=>$result));
     break;
