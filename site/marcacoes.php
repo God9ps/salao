@@ -142,7 +142,7 @@ include_once "menu1.php";
 
 
 <!-- Modal -->
-<div class="modal fade" id="Confirmar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="Confirmar" style="width: 200px" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -155,7 +155,9 @@ include_once "menu1.php";
                     <form  id="f_confirmar">
                         <div class="row">
                             <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-                                <input class="form-control" name="codigo" id="codigo" type="text" placeholder="" required="required" maxlength="5" size="5">
+                                <p>Verifique o seu telemovel e insira o código</p>
+                                <input class="form-control" name="codigo" id="codigo" type="text" placeholder="" required="required" maxlength="5">
+                                <button class="btn btn-sm btn-primary" id="confMarcacao">Confirmar</button>
                             </div>
                         </div>
                     </form>
@@ -353,7 +355,6 @@ include_once "menu1.php";
                          $("#Registo").modal("hide");
 
                          $("#Confirmar").modal({backdrop: 'static', keyboard: false});
-
 
 
                      },
