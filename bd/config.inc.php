@@ -1,8 +1,6 @@
 <?php
-$NOME_BD = "salao";
-$USER_BD = "root";
-$PASS_BD = "";
-$SERVER_NAME = "localhost";
+$NOME_BD = "u655365714_salao";
+$USER_BD = "u655365714_root";
+$PASS_BD = "Alex2007";
+$SERVER_NAME = "mysql.hostinger.pt";
 ?>
-
-
