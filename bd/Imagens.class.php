@@ -275,7 +275,7 @@ class Imagem extends BDMySQL
         return $resultado;
     }*/
 
-    function endProduto()
+    function endImagens()
     {
         $this->bd->fecharBD();
     }

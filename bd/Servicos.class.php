@@ -275,7 +275,7 @@ class Servico extends BDMySQL
         return $resultado;
     }*/
 
-    function endProduto()
+    function endServicos()
     {
         $this->bd->fecharBD();
     }

@@ -87,6 +87,7 @@ $servico = new Servico();
 
 
                         }
+                        $rsImagem->endImagens();
                         ?>
 
 
@@ -156,10 +157,12 @@ $servico = new Servico();
                     while ($row = $array->fetch(PDO::FETCH_ASSOC)) {
                         echo "<li><a href='#' data-filter='.{$row['id']}'>{$row['servico']}</a> </li>";
                     }
+                    $servico->endServicos();
                 ?>
             </ul>
         </div>
     </div>
+
 
     <div class="portfolioContainer wow fadeInUp delay-04s">
         <?php
@@ -170,12 +173,13 @@ $servico = new Servico();
         $random_keys=array_rand($rowImagem,$n);
 
         foreach ($random_keys as $value){*/
-            echo "<div class=' Portfolio-box {$rowImagem['id_servico']}'>";
+            echo "<div class='Portfolio-box {$rowImagem['id_servico']}'>";
                 echo "<a href='#'><img src='../img/{$rowImagem['imagem']}' class='img-responsive' alt=''></a>";
                 echo "<h3>{$rowImagem['titulo']}</h3>";
                 echo "<p>{$rowImagem['descricao']}</p>";
             echo "</div>";
         }
+        $rsImagem->endImagens();
         ?>
 
     </div>
@@ -251,6 +255,7 @@ $servico = new Servico();
 
                 <?php
             }
+            $servico->endServicos();
         ?>
         </div>
 </div>

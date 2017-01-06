@@ -267,7 +267,7 @@ class Marcacao extends BDMySQL
         return $resultado;
     }*/
 
-    function endEncomenda()
+    function endMarcacoes()
     {
         $this->bd->fecharBD();
     }
