@@ -31,6 +31,7 @@ include_once '../bd/Alerta.class.php';
 include_once '../bd/Clientes.class.php';
 include_once '../bd/Marcacoes.class.php';
 include_once '../bd/Servicos.class.php';
+include_once '../bd/php-uk/textlocal.class.php';
 
 $servico = new Servico();
 $rsMarcacao = new Marcacao();
@@ -68,7 +69,7 @@ switch ($_POST['accao']){
 
         $cliente['nome'] = $_POST['nome'];
         $cliente['email'] = $_POST['email'];
-        $cliente['telemovel'] = $_POST['telemovel'];
+        $cliente['telemovel'] = '351'.$_POST['telemovel'];
         $cliente['datanascimento'] = $_POST['datanascimento'];
 
         $marcacao['id_cliente'] = $rsCliente->registarCliente($cliente);
@@ -82,7 +83,20 @@ switch ($_POST['accao']){
         $marcacao['codigo'] = geraSenha();
         $result = $rsMarcacao->registarMarcacao($marcacao);
 
-        $rsAlerta->enviarEmail("Código de confirmação","Código : " . $marcacao['codigo'], "geral@annastyle.pt" , "Anna Style Studio",$cliente['email'] , $cliente['nome'] );
+        /*$textlocal = new Textlocal('pauloamserrano@gmail.com', 'Alex2007');
+
+        $numbers = array($cliente['telemovel']);
+        $sender = 'Anna Style';
+        $message = 'Para confirmar a sua visita introduza o código : ' . $marcacao['codigo'];
+
+        try {
+            $resultsms = $textlocal->sendSms($numbers, $message, $sender);
+//            print_r($result);
+        } catch (Exception $e) {
+            die('Error: ' . $e->getMessage());
+        }*/
+
+        $rsAlerta->enviarEmail("Código de confirmação","Código : " . $marcacao['codigo'], "geral@annastyle.pt" , "Anna Style Studio", $cliente['email'] , $cliente['nome'] );
 
         echo json_encode(array('status'=>'success','eventid'=>$result));
     break;
@@ -98,8 +112,10 @@ switch ($_POST['accao']){
     break;
 
     case 'teste':
-        $arrayServico = $servico->listarServicos();
-        print_r($arrayServico);
+
+
+
+
     break;
 
     default:

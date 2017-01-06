@@ -20,10 +20,10 @@ class Alerta extends BDMySQL
         // Define os dados do servidor e tipo de conexão
         // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
         $mail->IsSMTP(); // Define que a mensagem será SMTP
-        $mail->Host = "mail.codeboys.pt"; // Endereço do servidor SMTP
+        $mail->Host = "smtp.gmail.com"; // Endereço do servidor SMTP
         $mail->SMTPAuth = true; // Autenticação
-        $mail->Username = 'email@codeboys.pt'; // Usuário do servidor SMTP
-        $mail->Password = 'codeboys2016'; // Senha da caixa postal utilizada
+        $mail->Username = 'pauloamserrano@gmail.com'; // Usuário do servidor SMTP
+        $mail->Password = 'Alex2007'; // Senha da caixa postal utilizada
         // Define o remetente
         // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
         $mail->From = $emailDe; // Seu e-mail
