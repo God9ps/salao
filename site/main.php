@@ -87,7 +87,7 @@ $servico = new Servico();
 
 
                         }
-                        $rsImagem->endImagens();
+//                        $rsImagem->endImagens();
                         ?>
 
 
@@ -157,26 +157,21 @@ $servico = new Servico();
                     while ($row = $array->fetch(PDO::FETCH_ASSOC)) {
                         echo "<li><a href='#' data-filter='.{$row['id']}'>{$row['servico']}</a> </li>";
                     }
-                    $servico->endServicos();
+
                 ?>
             </ul>
         </div>
     </div>
 
-
     <div class="portfolioContainer wow fadeInUp delay-04s">
         <?php
 
-        $arrayImagem = $rsImagem->listarImagens();
-        while ($rowImagem = $arrayImagem->fetch(PDO::FETCH_ASSOC)) {
-        /*$n = sizeof($rowImagem);
-        $random_keys=array_rand($rowImagem,$n);
-
-        foreach ($random_keys as $value){*/
-            echo "<div class='Portfolio-box {$rowImagem['id_servico']}'>";
-                echo "<a href='#'><img src='../img/{$rowImagem['imagem']}' class='img-responsive' alt=''></a>";
-                echo "<h3>{$rowImagem['titulo']}</h3>";
-                echo "<p>{$rowImagem['descricao']}</p>";
+        $arrayImagem1 = $rsImagem->listarImagens();
+        while ($value = $arrayImagem1->fetch(PDO::FETCH_ASSOC)) {
+            echo "<div class='Portfolio-box {$value['id_servico']}'>";
+                echo "<a href='#'><img src='../img/{$value['imagem']}' class='img-responsive' alt=''></a>";
+                echo "<h3>{$value['titulo']}</h3>";
+                echo "<p>{$value['descricao']}</p>";
             echo "</div>";
         }
         $rsImagem->endImagens();
@@ -224,27 +219,25 @@ $servico = new Servico();
         <div class="row">
         <?php
 
-            $array = $servico->listarServicosPrecos();
-
-            while ($row = $array->fetch(PDO::FETCH_ASSOC)) {
-
+        $precos = $servico->listarServicosPrecos();
+        while ($row1 = $precos->fetch(PDO::FETCH_ASSOC)) {
                 ?>
                     <div class="col-md-3">
                         <div class="panel panel-danger">
                             <div class="panel-heading text-center">
-                                <?php echo $row['servico']; ?>
+                                <?php echo $row1['servico']; ?>
                                 <!--										<p class="text-center">MAX TEAM SIZE 25</p>-->
                             </div>
                             <div class="panel-body text-center">
-                                <p class="lead" style="font-size:50px"><strong><?php echo $row['preco'] ." €"; ?></strong></p>
+                                <p class="lead" style="font-size:50px"><strong><?php echo $row1['preco'] ." €"; ?></strong></p>
                             </div>
                             <ul class="list-group list-group-flush text-center">
 
                                 <li class="list-group-item">
-                                    <a class="btn btn-xs btn-block btn-info" id="<?php echo $row['id']; ?>"><span class="fa fa-envelope"></span> Pedir informações</a>
+                                    <a class="btn btn-xs btn-block btn-info" id="<?php echo $row1['id']; ?>"><span class="fa fa-envelope"></span> Pedir informações</a>
                                 </li>
                                 <li class="list-group-item">
-                                    <a class="btn btn-xs btn-block btn-warning" galeria-id="<?php echo $row['id']; ?>"><span class="fa fa-image"></span> Ver fotos</a>
+                                    <a class="btn btn-xs btn-block btn-warning" galeria-id="<?php echo $row1['id']; ?>"><span class="fa fa-image"></span> Ver fotos</a>
                                 </li>
                             </ul>
                             <div class="panel-footer"><a class="btn btn-md btn-block btn-primary" href="marcacoes.php">QUERO MARCAR</a>

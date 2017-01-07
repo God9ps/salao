@@ -20,9 +20,23 @@ class Alerta extends BDMySQL
         // Define os dados do servidor e tipo de conexão
         // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
         $mail->IsSMTP(); // Define que a mensagem será SMTP
-        $mail->Host = "mx1.hostinger.pt"; // Endereço do servidor SMTP
-        $mail->SMTPAuth = true; // Autenticação
-        $mail->Username = 'geral@annastyle.esy.es'; // Usuário do servidor SMTP
+        $mail->SMTPDebug = 2;
+//Ask for HTML-friendly debug output
+        $mail->Debugoutput = 'html';
+//Set the hostname of the mail server
+        $mail->Host = 'smtp.gmail.com';
+// use
+// $mail->Host = gethostbyname('smtp.gmail.com');
+// if your network does not support SMTP over IPv6
+//Set the SMTP port number - 587 for authenticated TLS, a.k.a. RFC4409 SMTP submission
+        $mail->Port = 587;
+//Set the encryption system to use - ssl (deprecated) or tls
+        $mail->SMTPSecure = 'tls';
+//Whether to use SMTP authentication
+        $mail->SMTPAuth = true;
+
+
+        $mail->Username = 'pauloamserrano@gmail.com'; // Usuário do servidor SMTP
         $mail->Password = 'Alex2007'; // Senha da caixa postal utilizada
         // Define o remetente
         // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
