@@ -20,7 +20,7 @@ class Alerta extends BDMySQL
         // Define os dados do servidor e tipo de conexão
         // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
         $mail->IsSMTP(); // Define que a mensagem será SMTP
-        $mail->SMTPDebug = 2;
+//        $mail->SMTPDebug = 2;
 //Ask for HTML-friendly debug output
         $mail->Debugoutput = 'html';
 //Set the hostname of the mail server

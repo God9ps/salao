@@ -72,7 +72,20 @@ switch ($_POST['accao']){
         $cliente['telemovel'] = '351'.$_POST['telemovel'];
         $cliente['datanascimento'] = $_POST['datanascimento'];
 
-        $marcacao['id_cliente'] = $rsCliente->registarCliente($cliente);
+        $exiteEmail = $rsCliente->verificarClientePeloEmail($_POST['email']);
+
+        foreach ($exiteEmail as $value){
+            echo $value
+        }
+        /*if ($exiteEmail == ''){
+            $marcacao['id_cliente'] = $rsCliente->registarCliente($cliente);
+        }else{
+            while ($row = $exiteEmail->fetch(PDO::FETCH_ASSOC)) {
+                $marcacao['id_cliente'] = $row['id'];
+            }
+        }
+
+
         $marcacao['id_servico'] = $_POST['id_servico'];
         $marcacao['title'] = $_POST['title'];
         $marcacao['startdate'] = $_POST['startdate'];
@@ -96,10 +109,26 @@ switch ($_POST['accao']){
             die('Error: ' . $e->getMessage());
         }*/
 
-        $rsAlerta->enviarEmail("Código de confirmação","Código : " . $marcacao['codigo'], "geral@annastyle.pt" , "Anna Style Studio", $cliente['email'] , $cliente['nome'] );
+       /* $rsAlerta->enviarEmail("Código de confirmação","Código : " . $marcacao['codigo'], "geral@annastyle.pt" , "Anna Style Studio", $cliente['email'] , $cliente['nome'] );
 
-        echo json_encode(array('status'=>'success','eventid'=>$result));
+        echo json_encode(array('status'=>'success','eventid'=>$result));*/
+
     break;
+
+    case 'confMarcacao':
+        $id = $_POST['id'];
+        $codigo = $_POST['codigo'];
+
+        try {
+
+            $result = $rsMarcacao->confMarcacao($id, $codigo);
+            echo json_encode(array('status'=>'success','eventid'=>$result));
+
+        } catch (Exception $e) {
+            die('Error: ' . $e->getMessage());
+        }
+
+        break;
 
     case 'extra':
         $arrayServico = $servico->listarServicos();
@@ -109,13 +138,6 @@ switch ($_POST['accao']){
             echo "<option value='{$value['id']}' duracao='{$value['duracao']}'>{$value['servico']}</option>";
         }
         echo "</select>";
-    break;
-
-    case 'teste':
-
-
-
-
     break;
 
     default:

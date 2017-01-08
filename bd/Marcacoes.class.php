@@ -31,18 +31,17 @@ class Marcacao extends BDMySQL
 
     }
 
-    function introduzirProdutoEncomenda($idEncomenda,$idProduto,$qtd)
+    function confMarcacao($id, $codigo)
+    {
+        $sql = "UPDATE marcacoes SET confirmada=1 WHERE id='$id' AND codigo='$codigo'";
+        return $this->bd->executarSQLWithID($sql);
+    }
+
+   /* function introduzirProdutoEncomenda($idEncomenda,$idProduto,$qtd)
     {
         $sql = "insert into lista_encomenda (id_encomenda, id_produto, quantidade)values ('$idEncomenda', '$idProduto', '$qtd')";
         return $this->bd->executarSQL_T($sql);
     }
-
-    function encomendaPaga($paga,$id)
-    {
-        $sql = "update encomenda set paga=$paga, nova=0 where id='$id'";
-        echo $this->bd->executarSQL_T($sql);
-    }
-
 
     function encomendaEnviada($enviada,$id)
     {
@@ -95,7 +94,7 @@ class Marcacao extends BDMySQL
         $result = $resultado->fetch();
 //        $this->endEncomenda();
         return $result[0];
-    }
+    }*/
     /*
 
     function verificarExisteEmail($email)

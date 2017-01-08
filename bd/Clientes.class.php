@@ -37,14 +37,7 @@ class Clientes extends BDMySQL
         echo $this->bd->executarSQL_T($sql);
     }
 
-    function capturarAlunoPeloId($id)
-    {
-        $sql = "select * from alunos where id = '$id'";
-        $resultado = $this->bd->executarSQL($sql);
-        $result = $resultado->fetch();
-        return $result;
 
-    }
 
     function apagarAlunos($id)
     {
@@ -63,6 +56,15 @@ class Clientes extends BDMySQL
 
         $sql = "INSERT INTO clientes ($campos) VALUES ($valores)";
         return $this->bd->executarSQLWithID($sql);
+
+    }
+
+    function verificarClientePeloEmail($email)
+    {
+        $sql = "select * from clientes where email = '$email'";
+        $resultado = $this->bd->executarSQL($sql);
+        $result = $resultado->fetch();
+        return $result;
 
     }
 
