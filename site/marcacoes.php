@@ -105,7 +105,7 @@ include_once "menu1.php";
                     <h4 class="modal-title" id="myModalLabel"><i class="fa fa-calendar" aria-hidden="true"></i></h4>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group">
+                    <div class="form-group" id="formulario">
                         <form  id="f_registo">
                             <div class="row">
                                 <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
@@ -131,8 +131,18 @@ include_once "menu1.php";
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" id="cancelar">Fechar</button>
-                    <button type="button" class="btn btn-primary" id="marcar">Confirmar marcação</button>
+                    <div class="row" style="margin-right: 5px;">
+                        <label class="radio-inline">
+                            <input type="radio" value="0" name="confOP">SMS
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" value="1" name="confOP">E-Mail
+                        </label>
+                    </div>
+                    <div class="row">
+                        <button type="button" class="btn btn-secondary" id="cancelar">Fechar</button>
+                        <button type="button" class="btn btn-primary" id="marcar" disabled>Confirmar marcação</button>
+                    </div>
                 </div>
             </div>
         </div>

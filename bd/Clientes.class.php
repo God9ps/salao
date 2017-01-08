@@ -13,7 +13,7 @@ class Clientes extends BDMySQL
     }
 
 
-    function contadorAlunos(){
+    /*function contadorAlunos(){
         $sql = "SELECT COUNT(*) FROM alunos";
         $resultado = $this->bd->executarSQL($sql);
         $result = $resultado->fetch();
@@ -46,7 +46,7 @@ class Clientes extends BDMySQL
             return true;
         else
             return false;
-    }
+    }*/
 
     function registarCliente($c)
     {
@@ -59,6 +59,7 @@ class Clientes extends BDMySQL
 
     }
 
+
     function verificarClientePeloEmail($email)
     {
         $sql = "select * from clientes where email = '$email'";
@@ -68,7 +69,8 @@ class Clientes extends BDMySQL
 
     }
 
-    function editarAlunos($c)
+
+   /* function editarAlunos($c)
     {
         $id = $c['id'];
         foreach ($c as $key => $value){
@@ -81,7 +83,7 @@ class Clientes extends BDMySQL
 
         return $resultado;
 
-    }
+    }*/
 
     function endAlunos()
     {

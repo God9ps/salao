@@ -63,7 +63,7 @@ switch ($_POST['accao']){
     break;
 
     case 'nova':
-
+        $status = "erro";
         $cliente = array();
         $marcacao = array();
 
@@ -74,15 +74,10 @@ switch ($_POST['accao']){
 
         $exiteEmail = $rsCliente->verificarClientePeloEmail($_POST['email']);
 
-        foreach ($exiteEmail as $value){
-            echo $value
-        }
-        /*if ($exiteEmail == ''){
-            $marcacao['id_cliente'] = $rsCliente->registarCliente($cliente);
+        if (is_array($exiteEmail)){
+            $marcacao['id_cliente'] = $exiteEmail[0];
         }else{
-            while ($row = $exiteEmail->fetch(PDO::FETCH_ASSOC)) {
-                $marcacao['id_cliente'] = $row['id'];
-            }
+            $marcacao['id_cliente'] = $rsCliente->registarCliente($cliente);
         }
 
 
@@ -94,24 +89,36 @@ switch ($_POST['accao']){
         $marcacao['extra2'] = (isset($_POST['extra2'])) ? $_POST['extra2'] : '' ;
         $marcacao['extra3'] = (isset($_POST['extra3'])) ? $_POST['extra3'] : '' ;
         $marcacao['codigo'] = geraSenha();
-        $result = $rsMarcacao->registarMarcacao($marcacao);
-
-        /*$textlocal = new Textlocal('pauloamserrano@gmail.com', 'Alex2007');
-
-        $numbers = array($cliente['telemovel']);
-        $sender = 'Anna Style';
-        $message = 'Para confirmar a sua visita introduza o código : ' . $marcacao['codigo'];
 
         try {
-            $resultsms = $textlocal->sendSms($numbers, $message, $sender);
+            $result = $rsMarcacao->registarMarcacao($marcacao);
+            $status = "success";
 //            print_r($result);
         } catch (Exception $e) {
+
             die('Error: ' . $e->getMessage());
-        }*/
+        }
 
-       /* $rsAlerta->enviarEmail("Código de confirmação","Código : " . $marcacao['codigo'], "geral@annastyle.pt" , "Anna Style Studio", $cliente['email'] , $cliente['nome'] );
+        if ($_POST['confOP'] == 0){
+            $textlocal = new Textlocal('pauloamserrano@gmail.com', 'Alex2007');
 
-        echo json_encode(array('status'=>'success','eventid'=>$result));*/
+            $numbers = array($cliente['telemovel']);
+            $sender = 'Anna Style';
+            $message = 'Para confirmar a sua visita introduza o código : ' . $marcacao['codigo'];
+
+            try {
+                $resultsms = $textlocal->sendSms($numbers, $message, $sender);
+//            print_r($result);
+            } catch (Exception $e) {
+                die('Error: ' . $e->getMessage());
+            }
+        }else if($_POST['confOP'] == 1){
+            $rsAlerta->enviarEmail("Código de confirmação","Código : " . $marcacao['codigo'], "geral@annastyle.pt" , "Anna Style Studio", $cliente['email'] , $cliente['nome'] );
+        }
+
+
+
+        echo json_encode(array('status'=>$status,'eventid'=>$result));
 
     break;
 

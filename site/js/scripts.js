@@ -46,6 +46,7 @@ $(document).ready(function () {
     });
 
 
+
     var currentMousePos = {
         x: -1,
         y: -1
@@ -78,7 +79,7 @@ $(document).ready(function () {
                 idEvento =  $(this).attr('id');
                 width = $(ui.helper).css('width');
                 height = $(ui.helper).css('height');
-                console.log(idEvento);
+                // console.log(idEvento);
                 $(ui.helper).css('width', '110').css('height', '20').css('text-align','center');
             },
             stop: function () {
@@ -109,6 +110,7 @@ $(document).ready(function () {
         allDaySlot: false,
         minTime: "10:00:00",
         maxTime: "20:00:00",
+        eventOverlap: false,
         hiddenDays: [ 0 ],
         businessHours: [
             {
@@ -124,6 +126,7 @@ $(document).ready(function () {
 
             }],
         eventReceive: function(event){
+            $(".fc-title").hide();
             evento = event;
             var title = event.title;
             var duracao = event.duracao;
@@ -133,17 +136,22 @@ $(document).ready(function () {
             var starttime = start.substr(start.length - 8);
             var data = start.substring(0,10);
 
-
             $("#myModalLabel").append("<strong> "+title+"</strong> para dia <b style='color: red;'>"+data+"</b> pelas <b style='color: red;'>" +starttime);
             $("#Registo").modal({backdrop: 'static', keyboard: false});
 //                console.log("Serviço : " +id_servico+ " - " +title+ "\n Inicio : " +start+ " Fim : " +end);
-            var originalModal = $("#Registo").clone();
+
             $("#cancelar").click(function () {
                 $("#Registo").modal('hide');
-                $('#Registo').remove();
-                $('body').append(originalModal);
-                $('#calendar').fullCalendar('removeEvents',evento._id);
 
+                $('#calendar').fullCalendar('removeEvents',evento._id);
+                $(".fc-title").hide();
+                $("#myModalLabel").empty();
+                $('#f_registo').reset();
+            });
+
+            $("input[name='confOP']").change(function () {
+                confOP = $(this).val();
+                $("#marcar").removeAttr('disabled');
             });
 
             $("#marcar").click(function () {
@@ -192,7 +200,7 @@ $(document).ready(function () {
 
                 $.ajax({
                     url: 'trata.php',
-                    data: dados + "&accao=nova",
+                    data: dados +"&confOP="+confOP+ "&accao=nova",
                     type: 'POST',
                     dataType: 'json',
                     success: function(){
@@ -211,8 +219,8 @@ $(document).ready(function () {
                             $(".modal-footer").html('<button type="button" class="btn btn-secondary" id="fechar">Fechar</button><button class="btn btn-sm btn-primary" id="confMarcacao">Confirmar</button>');
                             $("#codigo").focus();
                             $("#fechar").click(function () {
-                                $("#Registo").modal('hide').remove();
-                                $('body').append(originalModal);
+                                $("#Registo").modal('hide');
+
                                 $('#calendar').fullCalendar('removeEvents',evento._id);
 
                             });
@@ -231,8 +239,8 @@ $(document).ready(function () {
 
                                         if (retorno.status === 'success') {
                                             $('#calendar').fullCalendar('updateEvent', event);
-                                            $("#Registo").modal('hide').remove();
-                                            $('body').append(originalModal);
+                                            $("#Registo").modal('hide');
+
                                             $.notify("A sua marcação foi confirmada","success");
                                         }else{
                                             $.notify("Código inválido","error");
@@ -249,7 +257,7 @@ $(document).ready(function () {
 
                     },
                     error: function(e){
-                        console.log(e.responseText);
+                        // console.log(e.responseText);
                     }
                 });
 
@@ -258,13 +266,13 @@ $(document).ready(function () {
 
             $('#calendar').fullCalendar('updateEvent',event);
 
-        },
+        }
 
-        eventDrop: function(event, delta, revertFunc) {
+        /*eventDrop: function(event, delta, revertFunc) {
             var title = event.title;
             var start = event.start.format();
             var end = (event.end == null) ? start : event.end.format();
-            /*$.ajax({
+            /!*$.ajax({
              url: 'process.php',
              data: 'accao=resetdate&title='+title+'&start='+start+'&end='+end+'&eventid='+event.id,
              type: 'POST',
@@ -277,14 +285,14 @@ $(document).ready(function () {
              revertFunc();
              alert('Error processing your request: '+e.responseText);
              }
-             });*/
-        },
-        eventClick: function(event, jsEvent, view) {
-            console.log(event.id);
+             });*!/
+        },*/
+        /*eventClick: function(event, jsEvent, view) {
+            // console.log(event.id);
             var title = prompt('Event Title:', event.title, { buttons: { Ok: true, Cancel: false} });
             if (title){
                 event.title = title;
-                console.log('accao=changetitle&title='+title+'&eventid='+event.id);
+                // console.log('accao=changetitle&title='+title+'&eventid='+event.id);
                 $.ajax({
                     url: 'process.php',
                     data: 'accao=changetitle&title='+title+'&eventid='+event.id,
@@ -299,9 +307,9 @@ $(document).ready(function () {
                     }
                 });
             }
-        },
-        eventResize: function(event, delta, revertFunc) {
-            console.log(event);
+        },*/
+        /*eventResize: function(event, delta, revertFunc) {
+            // console.log(event);
             var title = event.title;
             var end = event.end.format();
             var start = event.start.format();
@@ -319,8 +327,8 @@ $(document).ready(function () {
                     alert('Error processing your request: '+e.responseText);
                 }
             });
-        },
-        eventDragStop: function (event, jsEvent, ui, view) {
+        },*/
+        /*eventDragStop: function (event, jsEvent, ui, view) {
             if (isElemOverDiv()) {
                 var con = confirm('Are you sure to delete this event permanently?');
                 if(con == true) {
@@ -342,8 +350,10 @@ $(document).ready(function () {
                     });
                 }
             }
-        }
+        }*/
     });
+
+    $(".fc-title").hide();
 
     function getFreshEvents(){
         $.ajax({
