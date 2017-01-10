@@ -4,7 +4,7 @@
             <li class=""><a href="index.php">Home</a></li>
             <li><a href="#service">Quem somos</a></li>
             <li><a href="#mobile">APP Mobile</a></li>
-            <li class="small-logo"><a href="#header"><img src="img/logo1.png" alt="" width="120"></a></li>
+            <li class="small-logo"><a href="#header"><img src="img/logonew.png" alt="" width="120"></a></li>
 
             <li><a href="#Portfolio">Portfolio</a></li>
             <li><a href="#prices">Preços</a></li>

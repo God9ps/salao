@@ -121,12 +121,13 @@ p {
     border: double black 4px;
     width: 80%;
     margin: 0 auto;
+    padding: 30px;
 }
 
 .header {
     height: auto;
     text-align: center;
-    background: url(../img/bg1.jpg) left top no-repeat;
+    background: url(../img/bgnew.jpg) left top no-repeat;
     background-size: 100%;
     padding: 80px 0;
 }
