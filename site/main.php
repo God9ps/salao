@@ -108,8 +108,8 @@ $servico = new Servico();
                 <img src="img/iphone.png" alt="" class="img-responsive">
             </figure>
             <div class="col-lg-7 col-sm-8 col-xs-12 featured-work">
-                <h2>Anna Mobile</h2>
-                <P class="padding-b">Para uma maior proximidade com a Anna Style Studio, oferecemos a nossa aplicação mobile, onde pode encontrar
+                <h2>BySophie Mobile</h2>
+                <P class="padding-b">Para uma maior proximidade com a BySophie, oferecemos a nossa aplicação mobile, onde pode encontrar
                     tudo sobre nós. Receba em primeira mão as nossas novidades e beneficie de ofertas exclusivas. Faça também de forma cómoda a sua marcação.</P>
                 <div class="featured-box">
                     <div class="featured-box-col1 wow fadeInRight delay-02s">
@@ -117,7 +117,7 @@ $servico = new Servico();
                     </div>
                     <div class="featured-box-col2 wow fadeInRight delay-02s">
                         <h3>Como por arte de magia</h3>
-                        <p>Tenha um papel activo na Anna Style Studio. A nossa App consegue estreitar laços com as nossas clientes.</p>
+                        <p>Tenha um papel activo na BySophie. A nossa App consegue estreitar laços com as nossas clientes.</p>
                     </div>
                 </div>
                 <div class="featured-box">
@@ -126,7 +126,7 @@ $servico = new Servico();
                     </div>
                     <div class="featured-box-col2 wow fadeInRight delay-04s">
                         <h3>Ofertas</h3>
-                        <p>Beneficie de exclusividade na Anna. Receba em primeira mão as melhores ofertas e descontos.</p>
+                        <p>Beneficie de exclusividade na BySophie. Receba em primeira mão as melhores ofertas e descontos.</p>
                     </div>
                 </div>
                 <div class="featured-box">
