@@ -37,6 +37,14 @@ class Marcacao extends BDMySQL
         return $this->bd->executarSQLWithID($sql);
     }
 
+    function verificaDisponibilidade($dia, $startdate, $enddate)
+    {
+        $sql = "SELECT COUNT(*) FROM marcacoes WHERE LEFT(marcacoes.startdate, 10) = '$dia' AND TIME(RIGHT(marcacoes.enddate, 8)) BETWEEN '$startdate' AND '$enddate' AND confirmada=1";
+        $resultado = $this->bd->executarSQL($sql);
+        $result = $resultado->fetch();
+        return $result[0];
+    }
+
    /* function introduzirProdutoEncomenda($idEncomenda,$idProduto,$qtd)
     {
         $sql = "insert into lista_encomenda (id_encomenda, id_produto, quantidade)values ('$idEncomenda', '$idProduto', '$qtd')";

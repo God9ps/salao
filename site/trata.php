@@ -20,7 +20,7 @@ function geraSenha($numeros = true)
 // Criamos um número aleatório de 1 até $len para pegar um dos caracteres
         $rand = mt_rand(1, $len);
 // Concatenamos um dos caracteres na variável $retorno
-        $retorno .= $caracteres[$rand-1];
+        $retorno .= $caracteres[$rand - 1];
     }
     return $retorno;
 }
@@ -38,15 +38,14 @@ $rsMarcacao = new Marcacao();
 $rsCliente = new Clientes();
 $rsAlerta = new Alerta();
 
-switch ($_POST['accao']){
+switch ($_POST['accao']) {
     case 'agenda':
 
         $events = array();
         $arrayMarcacao = $rsMarcacao->listarMarcacoes();
         /*$query = mysqli_query($con, "SELECT * FROM calendar");
         while($fetch = mysqli_fetch_array($query,MYSQLI_ASSOC))*/
-        while ($fetch = $arrayMarcacao->fetch(PDO::FETCH_ASSOC))
-        {
+        while ($fetch = $arrayMarcacao->fetch(PDO::FETCH_ASSOC)) {
             $e = array();
             $e['id'] = $fetch['id'];
             $e['title'] = $fetch['title'];
@@ -60,23 +59,38 @@ switch ($_POST['accao']){
         }
         echo json_encode($events);
 
-    break;
+        break;
 
     case 'nova':
+
+        $data = substr($_POST['startdate'], 0, -9);
+        $horainicio = substr($_POST['startdate'], -8, 8);
+        $horafim = substr($_POST['enddate'], -8, 8);
+        /*$data = '2017-01-11';
+        $horainicio = '13:30:00';
+        $horafim = '15:30:00';*/
+
+        $nMarcacoes = $rsMarcacao->verificaDisponibilidade($data, $horainicio, $horafim);
+
+       /* echo $data ."<br>";
+        echo $horainicio ."<br>";
+        echo $horafim ."<br>";
+        echo $nMarcacoes ."<br>";*/
+
         $status = "erro";
         $cliente = array();
         $marcacao = array();
 
         $cliente['nome'] = $_POST['nome'];
         $cliente['email'] = $_POST['email'];
-        $cliente['telemovel'] = '351'.$_POST['telemovel'];
+        $cliente['telemovel'] = '351' . $_POST['telemovel'];
         $cliente['datanascimento'] = $_POST['datanascimento'];
 
         $exiteEmail = $rsCliente->verificarClientePeloEmail($_POST['email']);
 
-        if (is_array($exiteEmail)){
+        if (is_array($exiteEmail)) {
             $marcacao['id_cliente'] = $exiteEmail[0];
-        }else{
+        } else {
             $marcacao['id_cliente'] = $rsCliente->registarCliente($cliente);
         }
 
@@ -85,42 +99,54 @@ switch ($_POST['accao']){
         $marcacao['title'] = $_POST['title'];
         $marcacao['startdate'] = $_POST['startdate'];
         $marcacao['enddate'] = $_POST['enddate'];
-        $marcacao['extra1'] = (isset($_POST['extra1'])) ? $_POST['extra1'] : '' ;
-        $marcacao['extra2'] = (isset($_POST['extra2'])) ? $_POST['extra2'] : '' ;
-        $marcacao['extra3'] = (isset($_POST['extra3'])) ? $_POST['extra3'] : '' ;
+        $marcacao['extra1'] = (isset($_POST['extra1'])) ? $_POST['extra1'] : '';
+        $marcacao['extra2'] = (isset($_POST['extra2'])) ? $_POST['extra2'] : '';
+        $marcacao['extra3'] = (isset($_POST['extra3'])) ? $_POST['extra3'] : '';
         $marcacao['codigo'] = geraSenha();
 
-        try {
-            $result = $rsMarcacao->registarMarcacao($marcacao);
-            $status = "success";
-//            print_r($result);
-        } catch (Exception $e) {
 
-            die('Error: ' . $e->getMessage());
-        }
-
-        if ($_POST['confOP'] == 0){
-            $textlocal = new Textlocal('pauloamserrano@gmail.com', 'Alex2007');
-
-            $numbers = array($cliente['telemovel']);
-            $sender = 'Anna Style';
-            $message = 'Para confirmar a sua visita introduza o código : ' . $marcacao['codigo'];
+        if ($nMarcacoes < 2) {
 
             try {
-                $resultsms = $textlocal->sendSms($numbers, $message, $sender);
-//            print_r($result);
+                $resultId = $rsMarcacao->registarMarcacao($marcacao);
+                $status = "success";
+                //            print_r($result);
             } catch (Exception $e) {
+
                 die('Error: ' . $e->getMessage());
             }
-        }else if($_POST['confOP'] == 1){
-            $rsAlerta->enviarEmail("Código de confirmação","Código : " . $marcacao['codigo'], "geral@annastyle.pt" , "Anna Style Studio", $cliente['email'] , $cliente['nome'] );
+
+            if ($_POST['confOP'] == 0) {
+                $textlocal = new Textlocal('pauloamserrano@gmail.com', 'Alex2007');
+
+                $numbers = array($cliente['telemovel']);
+                $sender = 'Anna Style';
+                $message = 'Para confirmar a sua visita introduza o código : ' . $marcacao['codigo'];
+
+                try {
+                    $resultsms = $textlocal->sendSms($numbers, $message, $sender);
+                    //            print_r($result);
+                } catch (Exception $e) {
+                    die('Error: ' . $e->getMessage());
+                }
+            } else if ($_POST['confOP'] == 1) {
+                $rsAlerta->enviarEmail("Código de confirmação", "Código : " . $marcacao['codigo'], "geral@annastyle.pt", "Anna Style Studio", $cliente['email'], $cliente['nome']);
+            }
+        }else {
+            try {
+                $resultId = $rsMarcacao->registarMarcacao($marcacao);
+
+                $status = "indisponivel";
+
+            } catch (Exception $e) {
+
+                die('Error: ' . $e->getMessage());
+            }
         }
+        $resultId = (isset($resultId)? $resultId : '');
+        echo json_encode(array('status' => $status, 'eventid' => $resultId));
 
-
-
-        echo json_encode(array('status'=>$status,'eventid'=>$result));
-
-    break;
+        break;
 
     case 'confMarcacao':
         $id = $_POST['id'];
@@ -129,7 +155,7 @@ switch ($_POST['accao']){
         try {
 
             $result = $rsMarcacao->confMarcacao($id, $codigo);
-            echo json_encode(array('status'=>'success','eventid'=>$result));
+            echo json_encode(array('status' => 'success', 'eventid' => $result));
 
         } catch (Exception $e) {
             die('Error: ' . $e->getMessage());
@@ -141,13 +167,13 @@ switch ($_POST['accao']){
         $arrayServico = $servico->listarServicos();
         echo "<select class='form-control'>";
         echo "<option value=''>Seleccione serviço</option>";
-        foreach ($arrayServico as $value){
+        foreach ($arrayServico as $value) {
             echo "<option value='{$value['id']}' duracao='{$value['duracao']}'>{$value['servico']}</option>";
         }
         echo "</select>";
-    break;
+        break;
 
     default:
         echo "Não foi escolhida qualquer acção";
-    break;
+        break;
 }

@@ -42,6 +42,7 @@ $(document).ready(function () {
         async: false,
         success: function(s){
             json_events = s;
+            console.log(s);
         }
     });
 
@@ -110,7 +111,7 @@ $(document).ready(function () {
         allDaySlot: false,
         minTime: "10:00:00",
         maxTime: "20:00:00",
-        eventOverlap: false,
+        eventOverlap: true,
         hiddenDays: [ 0 ],
         businessHours: [
             {
@@ -146,7 +147,7 @@ $(document).ready(function () {
                 $('#calendar').fullCalendar('removeEvents',evento._id);
                 $(".fc-title").hide();
                 $("#myModalLabel").empty();
-                $('#f_registo').reset();
+                $('.modal-body').find('form')[0].reset();
             });
 
             $("input[name='confOP']").change(function () {
@@ -176,8 +177,14 @@ $(document).ready(function () {
                     }
                 }
 
-                horaEnd = (horaEnd<10) ? "0"+horaEnd : horaEnd;
                 minutoEnd = (minutoEnd<10) ? "0"+minutoEnd : minutoEnd;
+
+                if (parseInt(minutoEnd) > 59){
+                    minutoEnd = "00";
+                    horaEnd = horaEnd + 1;
+                    horaEnd = (horaEnd<10) ? "0"+horaEnd : horaEnd;
+                }
+
                 segundoEnd = (segundoEnd<10) ? "0"+segundoEnd : segundoEnd;
 
                 var TimeEnd = horaEnd+":"+minutoEnd+":"+segundoEnd;
@@ -210,19 +217,22 @@ $(document).ready(function () {
 
                         var retorno = response.responseJSON;
 
+                        console.log(response.responseJSON);
                         if (retorno.status === 'success'){
 
                             event.id = retorno.eventid;
 
 
-                            $(".modal-body").html('<h3>Verifique o seu telemovel e insira o código</h3><br><br><input style="width: 100px" class="form-control" name="codigo" id="codigo" type="text" placeholder="" required maxlength="5">');
+                            $(".modal-body").html('<h3>Verifique o seu telemovel/email e insira o código</h3><br><br><input style="width: 100px" class="form-control" name="codigo" id="codigo" type="text" placeholder="" required maxlength="5">');
                             $(".modal-footer").html('<button type="button" class="btn btn-secondary" id="fechar">Fechar</button><button class="btn btn-sm btn-primary" id="confMarcacao">Confirmar</button>');
                             $("#codigo").focus();
+
                             $("#fechar").click(function () {
                                 $("#Registo").modal('hide');
 
                                 $('#calendar').fullCalendar('removeEvents',evento._id);
-
+                                $("#myModalLabel").empty();
+                                $('.modal-body').find('form')[0].reset();
                             });
 
                             $("#confMarcacao").click(function () {
@@ -240,21 +250,25 @@ $(document).ready(function () {
                                         if (retorno.status === 'success') {
                                             $('#calendar').fullCalendar('updateEvent', event);
                                             $("#Registo").modal('hide');
-
+                                            $("#myModalLabel").empty();
+                                            $('.modal-body').find('form')[0].reset();
                                             $.notify("A sua marcação foi confirmada","success");
                                         }else{
+                                            $("#myModalLabel").empty();
+                                            $('.modal-body').find('form')[0].reset();
                                             $.notify("Código inválido","error");
                                         }
                                     }
                                 });
                             });
 
-
-
-                        }else{
-                            console.log("Erro");
+                        }else if (retorno.status === 'indisponivel'){
+                            console.log("Horario indisponivel");
+                            $("#Registo").modal('hide');
+                            $('#calendar').fullCalendar('removeEvents',evento._id);
+                            $("#myModalLabel").empty();
+                            $('.modal-body').find('form')[0].reset();
                         }
-
                     },
                     error: function(e){
                         // console.log(e.responseText);
