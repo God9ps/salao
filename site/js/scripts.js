@@ -42,7 +42,7 @@ $(document).ready(function () {
         async: false,
         success: function(s){
             json_events = s;
-            console.log(s);
+
         }
     });
 
@@ -268,6 +268,7 @@ $(document).ready(function () {
                             $('#calendar').fullCalendar('removeEvents',evento._id);
                             $("#myModalLabel").empty();
                             $('.modal-body').find('form')[0].reset();
+                            $.notify("Horário indisponivel","error");
                         }
                     },
                     error: function(e){
